@@ -6,12 +6,7 @@ version of sge
 # Installation
 
 The running of HERA requires a few other software programs. 
-1a. Downloading and installing bwa-0.7.10
-   
-   git clone https://github.com/lh3/bwa.git  
-   cd bwa; make.
-
-1b. Downloading and installing minimap2
+1. Downloading and installing minimap2
    git clone https://github.com/lh3/minimap2.git  
    cd minimap2; make
 
@@ -42,113 +37,16 @@ The running of HERA requires a few other software programs.
     
     mv ../HERAv1.0-master/*.fasta ./
     
- 4. Modify the configuration part in pipeline.sh.
-
-    set genome_seq=~/Test/Test_Genome.fasta
-    
-    set Corrected_Pacbio=~/Test/Test_CorrectedPacbio.fasta
-    
-    set Working_Script=~/HERAv1.0-master/
-    
-    set DAZZ_DB=~/DAZZ_DB-master/
-    
-    set DALIGNER=~/DALIGNER-master/
-    
-    set MinPathNum=3
-    
       
- 5. Run the pipeline.sh, assuming that the job scheduling system of the cluster has been configured well in the scripts of "04-Qsub-Mapping2Ctg.pl", "08-qsub_job_index.pl", "09-Qsub-Pair_Alignment.pl" and "21-Daligner_New.pl". 
- 
+ 4. Run the pipeline.sh, assuming that the job scheduling system of the cluster has been configured well in the scripts of "04-Qsub-Mapping2Ctg.pl", "08-qsub_job_index.pl", "09-Qsub-Pair_Alignment.pl" and "21-Daligner_New.pl". 
+    
+    prepare input file in you dir: genome.fa  reads.fa and run:
     sh pipeline.sh
     
- 6. Results
+ 5. Results
  
     ./06-Daligner/SuperContig.fasta
     
-
-   
-# Quick Start
-
-### Step 0: Correct the noisy long reads by CANU and finish genome assembly by CANU or MECAT, or FALCON or other assemblers to generate contigs with high sequence accuracy.
-
-### Step 1: Create a config file
-
-Before running HERA, you need to create a config file template. HERA provides two kinds of running patterns for connecting the whole-genome assembled contigs and filling the gaps between the paired contigs with or without the BioNano maps.  
-
-The template looks like
-``` shell
-
-############################### the parameters that can be changed by users ##########################################
-#the genome name(less than 5 words)
-############################### the parameters which users can reset ##########################################
-#the genome name(less 5 words)
-genome_name=DJ
-
-#the whole genome assembled sequences with absolute path
-genome_seq=~/home/Genome.fasta
-
-#the corrected pacbio file with absolute path
-Corrected_Pacbio=~/home/correctedpacbio.fasta
-
-#the enzyme used to form the bionano map(if no bionano maps, neglect this parameter)
-Enzyme=GCTCTTC
-
-#the software with absolute path
-Working_Script=~/home/HERA-master/
-#the queue used to bsub jobs
-queue=low
-
-#DAZZ_DB with absolute path
-DAZZ_DB=~/Genome_Assembly/software/DAZZ_DB-master/
-
-#DALIGNER with absolute path
-DALIGNER=~/Genome_Assembly/software/DALIGNER-master/
-
-#the positions apart from start or end
-InterIncluded_Side=25000
-
-#internal pacbios and contigs 
-InterIncluded_Identity=99;
-InterIncluded_Coverage=99;
-
-#the pacbios selected for starting and ending
-MinIdentity=98
-MinCoverage=90
-MinLength=5000
-
-#the conditions used to filter the overlap used to construct the graph
-MinIdentity_Overlap=97
-MinOverlap_Overlap=1000
-MaxOverhang_Overlap=100
-MinExtend_Overlap=1000
-
-#the min num path for contig pairs
-MinPathNum=6
-
-#the conditons used to merge the supercontigs and non-scaffolded contigs
-MinIdentity_Merge=98
-MinOverlap_Merge=10000
-MaxOverhang_Merge=200
-
-############################### end of resetting parameters ##################################################
-```
-you need to fill and modify the relevant information, such as the whole genome assembled contigs or scaffold and the self-corrected long reads.
-
-### Step 2: Running HERA
-
-```Shell
-$ sh pipeline.sh
-```
-Users need to note that HERA currently only supports LSF job scheduling system, and we are trying to adapt HERA to different types of cluster job systems. While users can manually modify the configuration section of job system in scripts of "04-Qsub-Mapping2Ctg.pl", "08-qsub_job_index.pl", "21-Daligner_New.pl" and "09-Qsub-Pair_Alignment.pl" to fit your job system. It should be emphasized here that after the modification, users need to ensure the uniformaity of the way HERA submits and monitors jobs .
-
-Example like
-```Shell
-#BSUB -J $genome-Pair-$i-$j
-#BSUB -o $count.out
-#BSUB -n 1
-#BSUB -q $queue
-```
-
 # Results
 
 After the successful submission of pipeline.sh, HERA will take a few steps to get the reassembled genome sequences with the name of "genome_name-Final_Genome_HERA.fasta". HERA mainly includes the following five parts: 
