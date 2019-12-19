@@ -7,12 +7,15 @@ version of sge
 
 The running of HERA requires a few other software programs. 
 1. Downloading and installing minimap2
+
    git clone https://github.com/lh3/minimap2.git  
+
    cd minimap2; make
 
 2. Downloading and installing DALIGNER
 
    https://github.com/thegenemyers/DALIGNER
+
 3. Downloading and installing DAZZ_DB
 
    https://github.com/thegenemyers/DAZZ_DB
