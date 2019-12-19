@@ -39,7 +39,7 @@ perl $script/sam2blasr.pl $output/Part_Alignment_$count.sam $output/Part_Alignme
 rm -f $output/Part_Alignment_$count.sam
 ";
      close(OUT);
-     system("bsub < $count.pbs");
+     system("qsub -cwd -V -e log/ -l vf=10g,p=1 -q $queue -o $count.out -N $genome-Map-$count  < $count.pbs");
      $count++;
 }
 close(IN);

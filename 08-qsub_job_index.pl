@@ -31,7 +31,7 @@ print OUT "
 bwa index $line
 ";
      close(OUT);
-     system("bsub < $count.pbs");
+     system("qsub -cwd -V -l vf=10g,p=1 -q $queue -o $count.out -N $genome-INDEX-$count -e log/ < $count.pbs");
      $count++;
 }
 close(IN);

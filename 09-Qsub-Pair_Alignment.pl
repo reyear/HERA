@@ -51,7 +51,7 @@ rm -f ./03-Pacbio-SelfAlignment/Part_SelfAlignment_$i-$j.sam
 ";
 	}
         close(OUT);
-        system("bsub < $count.pbs");
+        system("qsub -cwd -V -l vf=10g,p=2 -o $count.out -q $queue -e log/ -N $genome-Pair-$i-$j < $count.pbs");
         $count++;
     }
 }
