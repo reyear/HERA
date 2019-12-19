@@ -24,31 +24,20 @@ The running of HERA requires a few other software programs.
  
  Assume the working directory is "~/"
  
- 1. Download and unzip HERA, and then generate a folder named "HERAv1.0-master". 
-    
-    unzip HERAv1.0-master.zip
-    
- 2. Set scripts to executable.
-    
-    cd HERAv1.0-master/ && chmod 777 *
-    
- 3. Generate the folder name "Test" and files for testing.
+ 1. Generate the folder name "Test" and files for testing.
  
     cd ../ && mkdir Test
     
     cd Test/ && cp ../HERAv1.0-master/pipeline.sh ./
+
+	cp ../HERAv1.0-master/Test_CorrectedPacbio.fasta reads.fa
     
-    mv ../HERAv1.0-master/*.fasta ./
+    cp ../HERAv1.0-master/Test_Genome.fasta	genome.fa
     
       
- 4. Run the pipeline.sh, assuming that the job scheduling system of the cluster has been configured well in the scripts of "04-Qsub-Mapping2Ctg.pl", "08-qsub_job_index.pl", "09-Qsub-Pair_Alignment.pl" and "21-Daligner_New.pl". 
+ 2. Run the pipeline.sh
     
-    prepare input file in you dir: genome.fa  reads.fa and run:
     sh pipeline.sh
-    
- 5. Results
- 
-    ./06-Daligner/SuperContig.fasta
     
 # Results
 
@@ -61,14 +50,6 @@ After the successful submission of pipeline.sh, HERA will take a few steps to ge
 6. Constructing the consensus sequence to fill the gap and produce the final genome.
 
 Finally, the users can get the super-contig genome and the connection information by HERA in the 06-Daligner/Selected_Path.txt and 06-Daligner/Ctg_Position.txt.
-
-```Shell
-$ ll -rth ./06-Daligner/
-SuperContig_Part_Info.txt
-SuperContig.fasta
-Selected_Path.txt
-Ctg_Position.txt
-```
 
 # Details of HERA pepiline 
 
