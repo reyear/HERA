@@ -1,16 +1,20 @@
 # HERA (Highly Efficient Repeat Assembly)
 # Introduction
-HERA is a local assembly tool using assembled contigs and self-corrected long reads as input. HERA is highly efficient using SMS data to resolve repeats, which enables the assembly of highly contiguous genomes. With the help of BioNano genome maps and chromosomal anchoring information, HERA can generate ultra-long, even chromosome-scale, contigs. 
 
-It is important to note that even though HERA can be used to improve the sequence contiguity of highly heterozygous genomes, it require HiC data (and better also with BioNano data) to resolve the haplotype sequences. A new pipeline to do this is being developed but it is not included here.
+version of sge
 
 # Installation
 
 The running of HERA requires a few other software programs. 
-1. Downloading and installing bwa-0.7.10
+1a. Downloading and installing bwa-0.7.10
    
    git clone https://github.com/lh3/bwa.git  
    cd bwa; make.
+
+1b. Downloading and installing minimap2
+   git clone https://github.com/lh3/minimap2.git  
+   cd minimap2; make
+
 2. Downloading and installing DALIGNER
 
    https://github.com/thegenemyers/DALIGNER
