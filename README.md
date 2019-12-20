@@ -3,54 +3,6 @@
 
 version of sge
 
-# Installation
-
-The running of HERA requires a few other software programs. 
-1. Downloading and installing minimap2
-
-   git clone https://github.com/lh3/minimap2.git  
-
-   cd minimap2; make
-
-2. Downloading and installing DALIGNER
-
-   https://github.com/thegenemyers/DALIGNER
-
-3. Downloading and installing DAZZ_DB
-
-   https://github.com/thegenemyers/DAZZ_DB
-   
- # The example of running HERA
- 
- Assume the working directory is "~/"
- 
- 1. Generate the folder name "Test" and files for testing.
- 
-    cd ../ && mkdir Test
-    
-    cd Test/ && cp ../HERAv1.0-master/pipeline.sh ./
-
-	cp ../HERAv1.0-master/Test_CorrectedPacbio.fasta reads.fa
-    
-    cp ../HERAv1.0-master/Test_Genome.fasta	genome.fa
-    
-      
- 2. Run the pipeline.sh
-    
-    sh pipeline.sh
-    
-# Results
-
-After the successful submission of pipeline.sh, HERA will take a few steps to get the reassembled genome sequences with the name of "genome_name-Final_Genome_HERA.fasta". HERA mainly includes the following five parts: 
-1. Mapping the corrected pacbio long reads to the whole genome assembled contigs;
-2. Filtering the corrected pacbio long reads which are used to assemble the contigs;
-3. Constructing the Contig-Reads and Reads-Reads overlaping graph;
-4. Traversing the overlapping graph taking the contig nodes as start and end to find the connecting paths;
-5. Constructing and traversing the contig-to-contig path graph to define the order and orientation of the contigs;
-6. Constructing the consensus sequence to fill the gap and produce the final genome.
-
-Finally, the users can get the super-contig genome and the connection information by HERA in the 06-Daligner/Selected_Path.txt and 06-Daligner/Ctg_Position.txt.
-
 # Details of HERA pepiline 
 
 ``` Shell
@@ -331,15 +283,3 @@ runCMD "$Working_Script/22-Filling-Gap Scaffold2Ctg_Gap.txt Prosudo_ScaffoldNonE
 # job 44
 runCMD "cat SuperContig.fasta ../$Bionano_NonScaffolded_Contig |awk 'BEGIN{count=1;}{if(\$0~/^>/){print \">SuperContig\"count\"END\";count++;}else{print \$0;}}' >../$genome_name-Final_Genome_HERA.fasta"
 ```
-
-# Usage Limitations
-
-HERA is highly efficient for generating highly contiguous and complete or nearly complete sequences for small genomes such as fungi as well as homozygous genomes. HERA may be applied to a genome for several rounds to get desired results. For highly heterozygous genomes, a lot of manual work may be required.
-
-# Citing HERA
-
-Du, H., Liang, C. (2018). Assembly of chromosome-scale contigs by efficiently resolving repetitive sequences with long reads. bioRxiv    doi: https://doi.org/10.1101/345983
-
-#  Seeking Help
-
-The detailed usage is described in the man page available together with the source code. If you have questions about HERA, you may send the questions to cliang@genetics.ac.cn.
